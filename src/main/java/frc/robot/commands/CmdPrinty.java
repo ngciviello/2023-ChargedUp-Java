@@ -1,17 +1,18 @@
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import static frc.robot.Constants.LimelightConstants.*;
 import frc.robot.subsystems.SubDriveTrain;
-import frc.robot.subsystems.SubLimelightUpper;
+import frc.robot.subsystems.SubLimelight;
 
 public class CmdPrinty extends CommandBase {
 
     private final SubDriveTrain subDriveTrain;
+    private final SubLimelight upperLimelight;
 
     public CmdPrinty(SubDriveTrain subDriveTrain) {
         this.subDriveTrain = subDriveTrain;
+        this.upperLimelight = new SubLimelight(LIMELIGHT_UPPER_ID, LL_LIMELIGHT_UPPER_HEIGHT, LL_LIMELIGHT_UPPER_ANGLE);
     }
 
     @Override
@@ -26,11 +27,20 @@ public class CmdPrinty extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        super.end(interrupted);
+        int selectedPipeline = upperLimelight.getPipeline();
+        if(selectedPipeline == -1) {
+            System.out.println("*** Error reading pipeline! ***");
+        } else {
+            selectedPipeline++;
+            if (selectedPipeline > 9) {
+                selectedPipeline = 0;
+            }
+            upperLimelight.setPipeline(selectedPipeline);
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return super.isFinished();
+        return true;
     }
 }

@@ -3,29 +3,26 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import static frc.robot.Constants.LimelightConstants.*;
+import static java.lang.Math.*;
 
 public class SubLimelight extends SubsystemBase {
     private NetworkTable tblLimelight;
 
     private double[] cropValues = new double[4];
+    private double limelightHeight;
+    private double limelightAngle;
 
-    public SubLimelight() {
-        tblLimelight = NetworkTableInstance.getDefault().getTable(Constants.LimelightConstants.LIMELIGHT_LOWER_ID);
+    public SubLimelight(String id, double height, double angle) {
+        tblLimelight = NetworkTableInstance.getDefault().getTable(id);
+        limelightHeight = height;
+        limelightAngle = angle;
     }
-
-    @Override
-    public void periodic() {}
 
     /*
     * Our code for reading/writing to a limelight's networktable, for more documentation see:
     * https://docs.limelightvision.io/docs/docs-limelight/apis/complete-networktables-api
     */
-
-    // Sets the id for network table to look for, must match the id of the limelight you want to use
-    public void setLimelightId(String id) {
-        tblLimelight = NetworkTableInstance.getDefault().getTable(id);
-    }
 
     // Sets the Limelight's led mode:
     // 0 = led mode set in pipeline
@@ -107,8 +104,8 @@ public class SubLimelight extends SubsystemBase {
     }
 
     // Returns the active pipeline index of the limelight 0-9, returns -1 if it fails
-    public double getPipeline() {
-        return tblLimelight.getEntry("getpipe").getDouble(-1);
+    public int getPipeline() {
+        return (int) tblLimelight.getEntry("getpipe").getDouble(-1);
     }
 
     // Returns the robot position in field-space [x, y, z, roll, pitch, yaw]
@@ -154,5 +151,17 @@ public class SubLimelight extends SubsystemBase {
     // Returns the ID of the targeted april tag
     public double getAprilTagId() {
         return tblLimelight.getEntry("tid").getDouble(0);
+    }
+
+    // Return the calculated distance to target
+    public double getDistanceToTarget(double targetCenterHeight) {
+
+        return (targetCenterHeight-limelightHeight) / (toDegrees(tan((limelightAngle + getVerticalOffset()))));
+    }
+
+    // Return the calculated angle of the limelight, used for setting the constant
+    public double getLimelightMountAngle(double targetCenterHeight, double distanceToTarget) {
+
+        return toDegrees(atan((targetCenterHeight-limelightHeight)/distanceToTarget)-(toRadians(getVerticalOffset())));
     }
 }
