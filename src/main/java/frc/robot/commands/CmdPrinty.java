@@ -22,22 +22,23 @@ public class CmdPrinty extends CommandBase {
 
     @Override
     public void execute() {
-        System.out.println("NavX Yaw: " + subDriveTrain.getYaw());
-    }
-
-    @Override
-    public void end(boolean interrupted) {
         int selectedPipeline = upperLimelight.getPipeline();
-        if(selectedPipeline == -1) {
+        if (selectedPipeline == -1) {
             System.out.println("*** Error reading pipeline! ***");
         } else {
+            System.out.println("Old Pipeline: " + selectedPipeline);
             selectedPipeline++;
             if (selectedPipeline > 9) {
                 selectedPipeline = 0;
             }
+            System.out.println("New Pipeline: " + selectedPipeline);
+            System.out.println("Got Target? " + upperLimelight.getTarget() + " Apriltag ID: " + upperLimelight.getAprilTagId());
             upperLimelight.setPipeline(selectedPipeline);
         }
     }
+
+    @Override
+    public void end(boolean interrupted) {}
 
     @Override
     public boolean isFinished() {

@@ -149,8 +149,8 @@ public class SubLimelight extends SubsystemBase {
     }
 
     // Returns the ID of the targeted april tag
-    public double getAprilTagId() {
-        return tblLimelight.getEntry("tid").getDouble(0);
+    public int getAprilTagId() {
+        return (int) tblLimelight.getEntry("tid").getDouble(0);
     }
 
     // Return the calculated distance to target
@@ -161,7 +161,6 @@ public class SubLimelight extends SubsystemBase {
 
     // Return the calculated angle of the limelight, used for setting the constant
     public double getLimelightMountAngle(double targetCenterHeight, double distanceToTarget) {
-
-        return toDegrees(atan((targetCenterHeight-limelightHeight)/distanceToTarget)-(toRadians(getVerticalOffset())));
+        return Math.toDegrees(atan((targetCenterHeight-limelightHeight)/distanceToTarget)-(Math.toRadians(getVerticalOffset())));
     }
 }
