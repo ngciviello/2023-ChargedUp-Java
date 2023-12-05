@@ -79,7 +79,7 @@ public class RobotContainer {
 
     auxController.leftStick().onTrue(new CmdVerticalElevResetPositionToTop(subVerticalElevator));
 
-    auxController.a().onTrue(new CmdCycleUpperLimelightPipelineAndPrint(subLimelightUpper, auxController));
+    auxController.a().onTrue(new CmdPrinty(subDriveTrain));
 
     // Subsystem default commands
     subDriveTrain.setDefaultCommand(new CmdDriveWithController(subDriveTrain, driverController));

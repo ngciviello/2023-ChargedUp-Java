@@ -255,7 +255,9 @@ public final class Constants {
       // Height of Upper LimeLight: 51.5 inches
       // Height of Lower LimeLight: 8.25 inches
 
-
+      // Limelight IDs:
+      public static final String LIMELIGHT_LOWER_ID = "limelight-lower";
+      public static final String LIMELIGHT_UPPER_ID = "limelight-upper";
 
 // Limelight related Constants
       public static final int LL_PIPELINE_APRILTAG_1n8 = 1;  // This pipeline will have 1 and 8 aprilTags selected
