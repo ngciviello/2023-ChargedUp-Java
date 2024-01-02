@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.autoCommands.AutoCmdAutonomousDoNothing;
+import frc.robot.autoCommands.AutoCmdMobility;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -34,6 +35,7 @@ public class RobotContainer {
   private final Timer timer = new Timer();
 
   private final AutoCmdAutonomousDoNothing autoCmdAutonomousDoNothing = new AutoCmdAutonomousDoNothing();
+  private final AutoCmdMobility autoCmdMobility = new AutoCmdMobility(subDriveTrain);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController = new CommandXboxController(ControllerConstants.DRIVER_CONTROLLER);
@@ -98,7 +100,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoCmdAutonomousDoNothing;
+    return autoCmdMobility;
   }
 
   public void configureSubsystems() {
